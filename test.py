@@ -7,6 +7,12 @@ ctrlZ = chr(26)
 smsTimeout = 2
 gpsTimeout = 5
 
+class SMS(object):
+	def __init__(self, sender, message, date):
+		self.sender = sender.strip("\"")
+		self.message = message
+		self.date = date
+
 class Modem(object):
 	def __init__(self, dev, bps=460800, pin=None):
 		self.device = serial.Serial(dev, bps, timeout=1)
@@ -63,16 +69,28 @@ class Modem(object):
 
 
 em7345 = Modem("/dev/ttyACM0", pin="1234")
-#em7345.sendSMS("+420775356278", "test message from py!")
-# gps = em7345.getGPS()
-# if gps:
-#     print(gps[1].split(",")[1])
-#     print(gps[1].split(",")[2])
 
-raw_sms = [ s.strip() for s in em7345.getSMS() if s.strip() and s.strip() != "OK" ]
+# sending a message:
+if False:
+	em7345.sendSMS("775356278", "test message from py!")
 
-for i, sms in enumerate(raw_sms):
+# getting GPS co-ords:
+if False:
+	gps = em7345.getGPS()
+	if gps:
+	    print(gps[1].split(",")[1])
+	    print(gps[1].split(",")[2])
+
+# reading messages
+raw_messages = [ s.strip() for s in em7345.getSMS() if s.strip() and s.strip() != "OK" ]
+messages = []
+for i, message in enumerate(raw_messages):
 	if not i % 2:
-		print sms.split(",")[2] + ":"
+		smsinfo = message.split(",")
+		print(smsinfo[0])
+		print(smsinfo[1])
+		sender = smsinfo[2]
+		date = " ".join(smsinfo[4:])
 	else:
-		print "\t" + sms
+		messages.append(SMS(sender, message, date))
+
