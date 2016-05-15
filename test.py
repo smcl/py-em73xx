@@ -57,10 +57,22 @@ class Modem(object):
 
 		return []
 
-em7345 = Modem("/dev/ttyACM0", pin="1234")
-em7345.sendSMS("+420775356278", "test message from py!")
-gps = em7345.getGPS()
+	def getSMS(self):
+		self.AT("AT+CMGL=\"ALL\"")
+		return self.device.readlines()
 
-if gps:
-        print(gps[1].split(",")[1])
-        print(gps[1].split(",")[2])
+
+em7345 = Modem("/dev/ttyACM0", pin="1234")
+#em7345.sendSMS("+420775356278", "test message from py!")
+# gps = em7345.getGPS()
+# if gps:
+#     print(gps[1].split(",")[1])
+#     print(gps[1].split(",")[2])
+
+raw_sms = [ s.strip() for s in em7345.getSMS() if s.strip() and s.strip() != "OK" ]
+
+for i, sms in enumerate(raw_sms):
+	if not i % 2:
+		print sms.split(",")[2] + ":"
+	else:
+		print "\t" + sms
