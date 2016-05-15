@@ -47,6 +47,9 @@ class Modem(object):
 		time.sleep(smsTimeout)
 		return self.device.readlines()
 
+	def deleteSMS(self, index):
+		self.AT("AT+CMGD=%s" % (index))
+
 	def getGPS(self):
 		self.AT("AT+XLCSLSR=1,1,,,,,,,,,,")
 		
