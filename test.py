@@ -28,17 +28,17 @@ class Modem(object):
 		print message
 		self.device.write(message)
 
-	def AT(self, message):
-		self.raw("AT+%s\r\n" % (message))
+	def AT(self, separator, message):
+		self.raw("AT%s%s\r\n" % (separator, message))
 
-	def Command(self, command, args=[]):
-		if not args:g
-			self.AT(command)
+	def Command(self, command, args=[], sep="+"):
+		if not args:
+			self.AT(sep, command)
 		else:
-			self.AT("%s=%s" % (command, ",".join(args)))
+			self.AT(sep, "%s=%s" % (command, ",".join(args)))
 
-	def Query(self, query):
-		self.AT("%s?" % (query))
+	def Query(self, query, sep="+"):
+		self.AT(sep, "%s?" % (query))
 	# --------------------------------------------------------------------------
 
 	def setTextMode(self):
@@ -66,7 +66,7 @@ class Modem(object):
 		self.Command("CMGD", [ str(index) ])
 
 	def getGPS(self):
-		self.Command("XLCSLSR", [ str(1), str(1), "","","","","","","","","","" ])
+		self.Command("XLCSLSR", [ str(1), str(1), "", "", "", "", "", "", "", "", "", "" ])
 		
 		gpsFix = False
 		attempts = 0
