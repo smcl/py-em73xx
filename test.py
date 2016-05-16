@@ -13,6 +13,9 @@ class SMS(object):
 		self.message = message
 		self.date = date
 
+def quote(s):
+	return "\"" + s + "\""
+
 class Modem(object):
 	def __init__(self, dev, bps=460800, pin=None):
 		self.device = serial.Serial(dev, bps, timeout=1)
@@ -20,17 +23,29 @@ class Modem(object):
 		if pin:
 			self.unlockSIM(pin)
 
+	# -- serial interaction via AT commands etc, maybe should be separate class
 	def raw(self, message):
+		print message
 		self.device.write(message)
 
 	def AT(self, message):
-		self.raw(message + "\r\n")
+		self.raw("AT+%s\r\n" % (message))
+
+	def Command(self, command, args=[]):
+		if not args:g
+			self.AT(command)
+		else:
+			self.AT("%s=%s" % (command, ",".join(args)))
+
+	def Query(self, query):
+		self.AT("%s?" % (query))
+	# --------------------------------------------------------------------------
 
 	def setTextMode(self):
-		self.AT("AT+CMGF=1")
+		self.Command("CMGF", [ str(1) ])
 
 	def unlockSIM(self, pin):
-		self.AT("AT+CPIN?")
+		self.Query("CPIN")
 		responses = self.device.readlines()
 		pinNeeded = True
 		for r in responses:
@@ -38,20 +53,20 @@ class Modem(object):
 				pinNeeded = False
 
 		if pinNeeded:
-			self.AT("AT+CPIN=\"%s\"" % (pin))
+			self.Command("CPIN", [ quote(pin) ])
 
 	def sendSMS(self, number, message):
-		self.AT("AT+CMGS=\"%s\"" % (number))
-		self.AT(message)
+		self.Command("CMGS", [ quote(number) ])
+		self.raw(message)
 		self.raw(ctrlZ)
 		time.sleep(smsTimeout)
 		return self.device.readlines()
 
 	def deleteSMS(self, index):
-		self.AT("AT+CMGD=%s" % (index))
+		self.Command("CMGD", [ str(index) ])
 
 	def getGPS(self):
-		self.AT("AT+XLCSLSR=1,1,,,,,,,,,,")
+		self.Command("XLCSLSR", [ str(1), str(1), "","","","","","","","","","" ])
 		
 		gpsFix = False
 		attempts = 0
@@ -67,7 +82,7 @@ class Modem(object):
 		return []
 
 	def getSMS(self):
-		self.AT("AT+CMGL=\"ALL\"")
+		self.Command("CMGL", [ quote("ALL") ])
 		return self.device.readlines()
 
 
