@@ -38,8 +38,8 @@ class Modem(object):
 			self.AT(sep, "%s=%s" % (command, ",".join(args)))
 
 	def Query(self, query, sep="+"):
-		self.AT(sep, "%s?" % (query))
-	# --------------------------------------------------------------------------
+		self.AT(sep, "%s?" % (query))	
+# --------------------------------------------------------------------------
 
 	def setTextMode(self):
 		self.Command("CMGF", [ str(1) ])
@@ -68,7 +68,6 @@ class Modem(object):
 	def getGPS(self):
 		self.Command("XLCSLSR", [ str(1), str(1), "", "", "", "", "", "", "", "", "", "" ])
 		
-		gpsFix = False
 		attempts = 0
 
 		while attempts < 5:
@@ -85,6 +84,9 @@ class Modem(object):
 		self.Command("CMGL", [ quote("ALL") ])
 		return self.device.readlines()
 
+        def listCommands(self):
+                self.Command("CLAC")
+                return self.device.readlines()
 
 em7345 = Modem("/dev/ttyACM0", pin="1234")
 
