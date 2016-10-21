@@ -1,4 +1,4 @@
-from utils import unquote
+from .utils import unquote
 
 
 class SMS(object):
