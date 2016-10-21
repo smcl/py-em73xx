@@ -13,7 +13,8 @@ ctrlZ = chr(26)
 
 
 class Modem(object):
-    def __init__(self, dev, bps=460800, pin=None):
+    def __init__(self, dev, bps=460800, pin=None, debug=False):
+        self.debug = debug
         self.device = serial.Serial(dev, bps, timeout=1)
         self.setTextMode()
         if pin:
@@ -21,7 +22,7 @@ class Modem(object):
 
     # -- serial interaction via AT commands etc, maybe should be separate class
     def raw(self, message):
-        print message
+        self.log(message)
         self.device.write(message)
 
     def AT(self, separator, message):
@@ -90,6 +91,10 @@ class Modem(object):
 
         return messages
 
-        def listCommands(self):
-                self.Command("CLAC")
-                return self.device.readlines()
+    def listCommands(self):
+            self.Command("CLAC")
+            return self.device.readlines()
+
+    def log(self, message):
+        if self.debug:
+            print(message)
