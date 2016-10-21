@@ -1,6 +1,7 @@
 import serial
 import time
 from .sms import SMS
+from .gps import GPS
 from .utils import (
     pairwise,
     quote
@@ -75,13 +76,14 @@ class Modem(object):
 
         while attempts < 10:
             time.sleep(gpsTimeout)
-            gpsLines = self.device.readlines()
-            for line in gpsLines:
+            raw_input = self.device.readlines()
+            raw_gps = [l for l in raw_input if l.strip() and l.strip() != "OK"]
+            for line in raw_gps:
                 if "XLCSLSR" in line and "XLCSLSR: request" not in line:
-                    return gpsLines
+                    return GPS(line)
             attempts += 1
 
-        return []
+        return None
 
     def getSMS(self):
         self.Command("CMGL", [quote("ALL")])
