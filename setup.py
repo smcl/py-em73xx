@@ -19,7 +19,7 @@ setup(
         'pyserial'
     ],
     setup_requires=[
-        'unittest2'
+        'unittest2',
         'pyserial'
     ],
 
