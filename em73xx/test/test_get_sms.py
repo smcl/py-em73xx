@@ -5,7 +5,7 @@ import unittest2
 dev = "/dev/ttyACM0"
 bps = 460800
 pin = None
-debug = True
+debug = False
 
 message_senders = [
     "+420775123456",
@@ -19,9 +19,9 @@ text_mode_AT = "AT+CMGF=1"
 all_sms_AT = "AT+CMGL=\"ALL\""
 
 for i, sender in enumerate(message_senders):
+    # flake8: noqa
     test_responses.append('+CMGL: 1,"REC READ","%s",,"21/10/16,12:00:00+08"\r\n' % (sender))
     test_responses.append('%s\r\n' % str(i))
-
 
 
 class GetSmsTest(unittest2.TestCase):
@@ -45,5 +45,3 @@ class GetSmsTest(unittest2.TestCase):
     def test_AT_commands(self):
         self.assertEqual(text_mode_AT, self.modem.device.inputs[0].strip())
         self.assertEqual(all_sms_AT, self.modem.device.inputs[1].strip())
-        #from pprint import pprint
-        #pprint(self.modem.device.inputs)
