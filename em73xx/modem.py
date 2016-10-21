@@ -13,9 +13,14 @@ ctrlZ = chr(26)
 
 
 class Modem(object):
-    def __init__(self, dev, bps=460800, pin=None, debug=False):
+    def __init__(self, dev, bps=460800, pin=None, device=None, debug=False):
         self.debug = debug
-        self.device = serial.Serial(dev, bps, timeout=1)
+
+        if device:
+            self.device = device
+        else:
+            self.device = serial.Serial(dev, bps, timeout=1)
+
         self.setTextMode()
         if pin:
             self.unlockSIM(pin)
