@@ -15,10 +15,12 @@ setup(
     classifiers = [],
     test_suite='em73xx.test.all',
     install_requires=[
-        'unittest2'
+        'unittest2',
+        'pyserial'
     ],
     setup_requires=[
         'unittest2'
+        'pyserial'
     ],
-    
+
 )
