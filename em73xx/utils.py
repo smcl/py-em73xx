@@ -8,7 +8,7 @@ def pairwise(iterable):
 
 
 def quote(s):
-	return "\"" + s + "\""
+    return "\"" + s + "\""
 
 
 def unquote(s):
