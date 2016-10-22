@@ -7,10 +7,13 @@ class SMS(object):
         self.message = message.strip()
 
     def parse_header(self, header):
-        (sms_id, status, sender, something, date, time) = header.split(",")
+        (sms_id_text, status, sender, something, date, time) = header.split(",")
 
-        self.sms_id = sms_id
+        self.sms_id = self.parse_sms_id(sms_id_text)
         self.status = unquote(status)
         self.sender = unquote(sender)
         self.date = unquote(date)
         self.time = unquote(time)
+
+    def parse_sms_id(self, sms_id_text):
+        return int(sms_id_text.replace("+CMGL: ", ""))
