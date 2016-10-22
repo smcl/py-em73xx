@@ -68,6 +68,9 @@ class Modem(object):
     def deleteSMS(self, index):
         self.Command("CMGD", [str(index)])
 
+    def deleteAllSMS(self):
+        self.Command("CMGD", [str(1), str(4)])
+
     def getGPS(self):
         self.Command("XLCSLSR",
                      [str(1), str(1), "", "", "", "", "", "", "", "", "", ""])
