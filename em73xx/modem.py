@@ -96,7 +96,7 @@ class Modem(object):
         messages = []
 
         for header, content in pairwise(raw_sms):
-            message = SMS(header, content)
+            message = SMS.from_AT_response(header, content)
             messages.append(message)
 
         return messages
