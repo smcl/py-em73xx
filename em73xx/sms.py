@@ -4,9 +4,9 @@ from .utils import unquote
 class SMS(object):
     @classmethod
     def from_AT_response(cls, header, message):
-        (sms_id_text, status, sender, something, date, time) = header.split(",")
+        (sms_id_txt, status, sender, something, date, time) = header.split(",")
 
-        sms_id = int(sms_id_text.replace("+CMGL: ", ""))
+        sms_id = int(sms_id_txt.replace("+CMGL: ", ""))
         status = unquote(status)
         sender = unquote(sender)
         date = unquote(date)
@@ -25,10 +25,10 @@ class SMS(object):
 
     def toJson(self):
         return {
-            "sms_id" : self.sms_id,
-            "status" : self.status,
-            "sender" : self.sender,
-            "date" : self.date,
-            "time" : self.time,
-            "message" : self.message,
+            "sms_id": self.sms_id,
+            "status": self.status,
+            "sender": self.sender,
+            "date": self.date,
+            "time": self.time,
+            "message": self.message,
         }
