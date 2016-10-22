@@ -10,7 +10,8 @@ class SMS(object):
             sms_json["sender"],
             sms_json["date"],
             sms_json["time"],
-            sms_json["message"]
+            sms_json["message"],
+            sms_json["read"]
         )
 
     @classmethod
@@ -24,15 +25,16 @@ class SMS(object):
         time = unquote(time)
         message = message.strip()
 
-        return cls(sms_id, status, sender, date, time, message)
+        return cls(sms_id, status, sender, date, time, message, False)
 
-    def __init__(self, sms_id, status, sender, date, time, message):
+    def __init__(self, sms_id, status, sender, date, time, message, read):
         self.sms_id = sms_id
         self.status = status
         self.sender = sender
         self.date = date
         self.time = time
         self.message = message
+        self.read = read
 
     def toJson(self):
         return {
@@ -42,4 +44,5 @@ class SMS(object):
             "date": self.date,
             "time": self.time,
             "message": self.message,
+            "read": self.read
         }
