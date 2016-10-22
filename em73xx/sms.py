@@ -3,6 +3,17 @@ from .utils import unquote
 
 class SMS(object):
     @classmethod
+    def fromJson(cls, sms_json):
+        return cls(
+            sms_json["sms_id"],
+            sms_json["status"],
+            sms_json["sender"],
+            sms_json["date"],
+            sms_json["time"],
+            sms_json["message"]
+        )
+
+    @classmethod
     def from_AT_response(cls, header, message):
         (sms_id_txt, status, sender, something, date, time) = header.split(",")
 
