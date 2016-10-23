@@ -23,6 +23,15 @@ $ python setup.py install
 
 ## Examples
 
+Find which device the modem using the `find_device.sh script` - here it's `/dev/ttyACM0`:
+
+```
+$ ./find_device.sh 
+/dev/ttyACM0 - Sierra_Wireless_Inc._Sierra_Wireless_EM7345_4G_LTE_013937006578445
+/dev/input/event14 - SunplusIT_Inc_Integrated_Camera
+/dev/video0 - SunplusIT_Inc_Integrated_Camera
+```
+
 Initialising the modem:
 ```
 from em73xx import Modem
