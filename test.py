@@ -4,7 +4,7 @@ import time
 from em73xx import Modem
 
 
-em7345 = Modem("/dev/ttyACM1", pin="1234")
+em7345 = Modem("/dev/ttyACM0", pin="1234", debug=True)
 
 # sending a message:
 if False:
@@ -12,10 +12,11 @@ if False:
 
 # getting GPS co-ords:
 if False:
-	gps = em7345.getGPS()
-	if gps:
-	    print(gps[1].split(",")[1])
-	    print(gps[1].split(",")[2])
+    gps = em7345.getGPS()
+    if gps:
+        print(gps.latitude)
+        print(gps.longitude)
+
 
 # reading messages
 messages = em7345.getSMS()
