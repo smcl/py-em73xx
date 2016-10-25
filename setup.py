@@ -16,11 +16,13 @@ setup(
     test_suite='em73xx.test.all',
     install_requires=[
         'unittest2',
-        'pyserial'
+        'pyserial',
+        'python-dateutil'
     ],
     setup_requires=[
         'unittest2',
-        'pyserial'
+        'pyserial',
+        'python-dateutil'
     ],
 
 )
