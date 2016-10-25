@@ -1,6 +1,6 @@
 from setuptools import setup
 
-current_version = '0.3'
+current_version = '0.4'
 
 setup(
     name = 'em73xx',
