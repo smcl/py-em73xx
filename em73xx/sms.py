@@ -2,10 +2,12 @@ from dateutil import parser as iso_parser
 from datetime import datetime
 from .utils import unquote
 
+
 def parse_date_time(date, time):
     date_format = "%y/%m/%d %H:%M:%S"
     date_and_time = (date + " " + time)[:-3]
     return datetime.strptime(date_and_time, date_format)
+
 
 class SMS(object):
     @classmethod
