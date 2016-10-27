@@ -42,6 +42,14 @@ class Modem(object):
 
     def Query(self, query, sep="+"):
         self.AT(sep, "%s?" % (query))
+
+    def Read(self):
+        response = self.device.readlines()
+
+        if self.debug:
+            self.log(response)
+
+        return response
     # --------------------------------------------------------------------------
 
     def setTextMode(self):
@@ -49,7 +57,7 @@ class Modem(object):
 
     def unlockSIM(self, pin):
         self.Query("CPIN")
-        responses = self.device.readlines()
+        responses = self.Read()
         pinNeeded = True
         for r in responses:
             if "READY" in r:
@@ -63,7 +71,7 @@ class Modem(object):
         self.raw(message)
         self.raw(ctrlZ)
         time.sleep(smsTimeout)
-        return self.device.readlines()
+        return self.Read()
 
     def deleteSMS(self, index):
         self.Command("CMGD", [str(index)])
@@ -79,7 +87,7 @@ class Modem(object):
 
         while attempts < 10:
             time.sleep(gpsTimeout)
-            raw_input = self.device.readlines()
+            raw_input = self.Read()
             raw_gps = [l for l in raw_input if l.strip() and l.strip() != "OK"]
             for line in raw_gps:
                 if "XLCSLSR" in line and "XLCSLSR: request" not in line:
@@ -90,7 +98,7 @@ class Modem(object):
 
     def getSMS(self):
         self.Command("CMGL", [quote("ALL")])
-        raw_input = self.device.readlines()
+        raw_input = self.Read()
         raw_sms = [l for l in raw_input if l.strip() and l.strip() != "OK"]
 
         messages = []
@@ -103,7 +111,7 @@ class Modem(object):
 
     def listCommands(self):
             self.Command("CLAC")
-            return self.device.readlines()
+            return self.Read()
 
     def log(self, message):
         if self.debug:
