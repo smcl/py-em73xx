@@ -96,10 +96,17 @@ class Modem(object):
 
         return None
 
+    def validSMSResponse(self, line):
+        return (
+            line.strip()
+            and line.strip() != "OK"
+            and not line.startswith("AT+CMGL")
+        )
+
     def getSMS(self):
         self.Command("CMGL", [quote("ALL")])
         raw_input = self.Read()
-        raw_sms = [l for l in raw_input if l.strip() and l.strip() != "OK" and not l.startswith("AT+CMGL")]
+        raw_sms = [l for l in raw_input if self.validSMSResponse(l)]
 
         messages = []
 

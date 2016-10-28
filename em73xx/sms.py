@@ -48,7 +48,7 @@ class SMS(object):
             "sms_id": self.sms_id,
             "status": self.status,
             "sender": self.sender,
-            "date_received": self.date_received.isoformat(),
+            "date_received": self.date_received.isoformat()[:-10],
             "message": self.message,
             "read": self.read
         }
