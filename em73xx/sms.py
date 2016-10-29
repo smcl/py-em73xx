@@ -3,7 +3,6 @@ from datetime import datetime
 from .utils import unquote
 
 
-
 def parse_date_time(date, time):
     date_format = "%y/%m/%d %H:%M:%S"
     date_and_time = (date + " " + time)[:-3]
