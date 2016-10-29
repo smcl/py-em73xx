@@ -3,6 +3,7 @@ from datetime import datetime
 from .utils import unquote
 
 
+
 def parse_date_time(date, time):
     date_format = "%y/%m/%d %H:%M:%S"
     date_and_time = (date + " " + time)[:-3]
@@ -48,7 +49,7 @@ class SMS(object):
             "sms_id": self.sms_id,
             "status": self.status,
             "sender": self.sender,
-            "date_received": self.date_received.isoformat()[:-10],
+            "date_received": self.date_received,
             "message": self.message,
             "read": self.read
         }
