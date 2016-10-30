@@ -1,6 +1,13 @@
 from setuptools import setup
 
-current_version = '0.8'
+current_version = '0.9'
+
+# convert from github markdown to rst
+try:
+    import pypandoc
+    long_description = pypandoc.convert('README.md', 'rst')
+except(IOError, ImportError):
+    long_description = open('README.md').read()
 
 setup(
     name = 'em73xx',
