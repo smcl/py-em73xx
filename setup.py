@@ -1,6 +1,6 @@
 from setuptools import setup
 
-current_version = '0.9'
+current_version = '0.10'
 
 # convert from github markdown to rst
 try:
