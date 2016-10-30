@@ -31,5 +31,5 @@ setup(
         'pyserial',
         'python-dateutil'
     ],
-
+    long_description=long_description
 )
